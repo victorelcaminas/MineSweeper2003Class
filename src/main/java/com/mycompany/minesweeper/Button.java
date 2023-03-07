@@ -4,6 +4,7 @@
  */
 package com.mycompany.minesweeper;
 
+import java.awt.event.MouseAdapter;
 import javax.swing.JButton;
 
 /**
@@ -13,7 +14,24 @@ import javax.swing.JButton;
 public class Button extends JButton {
     private CellState state;
     
+    private class MymouseAdapter extends MouseAdapter {
+        
+    }
     
+    private static MymouseAdapter mouseAdapter;
+    
+    public Button() {
+        super();
+        myInit();
+        addMouseListener(mouseAdapter);
+    }
+    
+    private void myInit() {
+        if (mouseAdapter == null) {
+            mouseAdapter = new MymouseAdapter();
+        }
+        
+    }
             
     
 }

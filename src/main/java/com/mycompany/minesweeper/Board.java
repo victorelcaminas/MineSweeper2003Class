@@ -53,7 +53,7 @@ public class Board extends javax.swing.JPanel {
         gridLayout.setColumns(numCols);
         
         Image image = new ImageIcon(getClass().getResource("/images/boton.jpg")).getImage();
-        Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+    Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         Icon icon = new ImageIcon(newimg);
   
         Image imageBack = new ImageIcon(getClass().getResource("/images/back.png")).getImage();
