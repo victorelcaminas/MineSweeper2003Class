@@ -52,10 +52,6 @@ public class Board extends javax.swing.JPanel {
         gridLayout.setRows(numRows);
         gridLayout.setColumns(numCols);
         
-        Image image = new ImageIcon(getClass().getResource("/images/boton.jpg")).getImage();
-    Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-        Icon icon = new ImageIcon(newimg);
-  
         Image imageBack = new ImageIcon(getClass().getResource("/images/back.png")).getImage();
         Image newimgBack = imageBack.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         Icon iconBack = new ImageIcon(newimgBack);
@@ -67,11 +63,9 @@ public class Board extends javax.swing.JPanel {
                 panel.setLayout(new OverlayLayout(panel));
                 
                 
-                JButton button = new JButton(icon);
+                Button button = new Button();
                 button.setSize(getSquareDimension());
-                button.setMargin(new Insets(0,0,0,0));
-                button.setBorderPainted(false);
-                button.setContentAreaFilled(false);
+                
                 panel.add(button);
                 
                 panel.add(new JLabel(iconBack));
