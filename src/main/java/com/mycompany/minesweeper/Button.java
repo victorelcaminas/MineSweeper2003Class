@@ -12,35 +12,66 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author victor
  */
 public class Button extends JButton {
+    
+    public static final int SIZE = 30;
+            
     private CellState state;
     
     private class MymouseAdapter extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
             Button button = (Button) e.getSource();
-            if (button.state == CellState.CLOSED) {
-                button.setIcon(getIcon("/images/boton_pressed.jpg"));
+            if (!SwingUtilities.isRightMouseButton(e)) {
+                if (button.state == CellState.CLOSED) {
+                    button.setIcon(getIcon("/images/boton_pressed.jpg"));
+                }
             }
+            
         }
         
         @Override
         public void mouseReleased(MouseEvent e) {
             Button button = (Button) e.getSource();
-            button.updateState();
+            if (!SwingUtilities.isRightMouseButton(e)) {
+                button.updateState();
+            }
         }
         
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(MouseEvent e) {            
             Button button = (Button) e.getSource();
-            button.state = CellState.OPEN;
-            button.updateState();
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                button.state = CellState.OPEN;
+                button.updateState();
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                processRightClick(button);
+            }
+            
         }
+    }
+    
+    private void processRightClick(Button button) {
+        switch (button.state) {
+            case CLOSED:
+                button.state = CellState.FLAG;
+                break;
+            case FLAG:
+                button.state = CellState.QUESTION;
+                break;
+            case QUESTION:
+                button.state = CellState.CLOSED;
+                break;
+            default:
+                break;
+        }
+        button.updateState();
     }
     
     private static MymouseAdapter mouseAdapter;
@@ -70,7 +101,7 @@ public class Button extends JButton {
                         .getResource(path))
                         .getImage();
         Image newimg = image.getScaledInstance
-                (30, 30,  java.awt.Image.SCALE_SMOOTH); 
+                (SIZE, SIZE,  java.awt.Image.SCALE_SMOOTH); 
         Icon icon = new ImageIcon(newimg);
         return icon;
  

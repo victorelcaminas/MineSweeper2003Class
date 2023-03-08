@@ -4,17 +4,8 @@
  */
 package com.mycompany.minesweeper;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
@@ -40,11 +31,12 @@ public class Board extends javax.swing.JPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(204, 255, 204));
-        setPreferredSize(null);
         setLayout(new java.awt.GridLayout(10, 10));
     }// </editor-fold>//GEN-END:initComponents
 
     private void myInit() {
+        
+        
         int numRows = Config.instance.getNumRows();
         int numCols = Config.instance.getNumCols();
         
@@ -53,13 +45,12 @@ public class Board extends javax.swing.JPanel {
         gridLayout.setColumns(numCols);
         
         Image imageBack = new ImageIcon(getClass().getResource("/images/back.png")).getImage();
-        Image newimgBack = imageBack.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        Image newimgBack = imageBack.getScaledInstance(Button.SIZE, Button.SIZE,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         Icon iconBack = new ImageIcon(newimgBack);
         
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                JPanel panel = new JPanel();
-                panel.setBackground(Color.RED);
+                JPanel panel = new JPanel();                
                 panel.setLayout(new OverlayLayout(panel));
                 
                 

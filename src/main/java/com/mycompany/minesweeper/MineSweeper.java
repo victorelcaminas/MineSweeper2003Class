@@ -4,6 +4,8 @@
  */
 package com.mycompany.minesweeper;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author victor
@@ -15,6 +17,20 @@ public class MineSweeper extends javax.swing.JFrame {
      */
     public MineSweeper() {
         initComponents();
+        myInit();
+    }
+    
+    private Dimension getBoardDimension() {
+        int width = Button.SIZE * Config.instance.getNumCols();
+        int height = Button.SIZE * Config.instance.getNumRows();
+        return new Dimension(width, height);
+    }
+    
+    private void myInit() {
+        setLocationRelativeTo(null);
+        board.setPreferredSize(getBoardDimension());
+        upperPanel.setPreferredSize(new Dimension(100,100));
+        pack();
     }
 
     /**
@@ -26,12 +42,14 @@ public class MineSweeper extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        board1 = new com.mycompany.minesweeper.Board();
+        upperPanel = new com.mycompany.minesweeper.UpperPanel();
+        board = new com.mycompany.minesweeper.Board();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().add(board1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(upperPanel, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
-        setBounds(0, 0, 470, 356);
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -70,6 +88,7 @@ public class MineSweeper extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.minesweeper.Board board1;
+    private com.mycompany.minesweeper.Board board;
+    private com.mycompany.minesweeper.UpperPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 }
