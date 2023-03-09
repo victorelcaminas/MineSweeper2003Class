@@ -4,10 +4,12 @@
  */
 package com.mycompany.minesweeper;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -116,19 +118,27 @@ public class Button extends JButton {
                 setVisible(false);
                 break;
             case FLAG:
-                setIcon(getIcon("/images/boton.jpg"));
-                Icon flag = getIcon("/images/flag.png");
-                JLabel label = new JLabel(flag);
-                add(label);
+               // setIcon(getIcon("/images/boton.jpg"));          
+                repaint();
                 break;
             case QUESTION:
-                setIcon(getIcon("/images/boton.jpg"));
-                Icon question = getIcon("/images/question.png");
-                JLabel labelQ = new JLabel(question);
-                add(labelQ);
+                repaint();
+                //setIcon(getIcon("/images/boton.jpg"));
                 break;
             default:
                 throw new AssertionError();
+        }        
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (state == CellState.FLAG) {
+            Icon flag = getIcon("/images/flag.png");
+            flag.paintIcon(this, g, 0, 0);
+        } else if (state == CellState.QUESTION) {
+            Icon question = getIcon("/images/question.png");
+            question.paintIcon(this, g, 0, 0);
         }
     }
             
