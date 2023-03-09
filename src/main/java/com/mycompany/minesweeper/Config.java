@@ -45,4 +45,17 @@ public class Config {
         }
     }
     
+    public int getNumBombs() {
+        switch (level) {
+            case 0:
+                return 10;
+            case 1:
+                return 38;
+            case 2: 
+                return 125;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
 }

@@ -49,7 +49,8 @@ public class Button extends JButton {
         @Override
         public void mouseClicked(MouseEvent e) {            
             Button button = (Button) e.getSource();
-            if (SwingUtilities.isLeftMouseButton(e)) {
+            if (SwingUtilities.isLeftMouseButton(e) &&
+                    button.state == CellState.CLOSED) {
                 button.state = CellState.OPEN;
                 button.updateState();
             } else if (SwingUtilities.isRightMouseButton(e)) {
@@ -117,13 +118,11 @@ public class Button extends JButton {
             case OPEN:
                 setVisible(false);
                 break;
-            case FLAG:
-               // setIcon(getIcon("/images/boton.jpg"));          
+            case FLAG:        
                 repaint();
                 break;
             case QUESTION:
                 repaint();
-                //setIcon(getIcon("/images/boton.jpg"));
                 break;
             default:
                 throw new AssertionError();
