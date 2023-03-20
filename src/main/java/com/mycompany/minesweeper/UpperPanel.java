@@ -51,9 +51,12 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
         seconds ++;
         int min = seconds / 60;
         int sec = seconds % 60;
+        updateTimerLabel(min, sec);  
+    }
+    
+    public void updateTimerLabel(int min, int sec) {
         String timeStr = String.format("%02d:%02d", min, sec);
         labelTime.setText(timeStr);
-        
     }
 
     /**
@@ -124,7 +127,10 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSmileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSmileActionPerformed
-        // TODO add your handling code here:
+        seconds = 0;
+        timer.restart();
+        updateTimerLabel(0, 0);
+        
     }//GEN-LAST:event_buttonSmileActionPerformed
 
 

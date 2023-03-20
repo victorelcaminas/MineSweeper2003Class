@@ -129,28 +129,39 @@ public class Board extends javax.swing.JPanel {
         Image newimgBack = imageBack.getScaledInstance(Button.SIZE, Button.SIZE,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         Icon iconBack = new ImageIcon(newimgBack);
         
+        createGameBoard(numRows, numCols, iconBack);
+    }
+    
+
+    private void createGameBoard(int numRows, int numCols, Icon iconBack) {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 JPanel panel = new JPanel();                
                 panel.setLayout(new OverlayLayout(panel));
                 
-                
-                Button button = new Button();
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent ae) {
-                        timerInterface.startTimer();
-                    }
-                });
-                
-                button.setSize(getSquareDimension());
+                JLabel label = addLabel(row, col);
+                Button button = addButton();
                 
                 panel.add(button);
+                panel.add(label);
+                
                 panel.add(new JLabel(iconBack));
                 
                 add(panel);
             }
         }
+    }
+
+    private Button addButton() {
+        Button button = new Button();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                timerInterface.startTimer();
+            }
+        });
+        button.setSize(getSquareDimension());
+        return button;
     }
     
     private Dimension getSquareDimension() {
@@ -164,6 +175,27 @@ public class Board extends javax.swing.JPanel {
     
     public void setTimerInterface(TimerInterface timerInterface) {
         this.timerInterface = timerInterface;
+    }
+
+    private JLabel addLabel(int row, int col) {
+        Color[] COLORS = {Color.decode("#FFFFFF"), 
+                          Color.decode("#0000FF"),
+                          Color.decode("#00FF00"),
+                          Color.decode("#FF0000"),
+                          Color.decode("#000099"),
+                          Color.decode("#990000"),
+                          Color.decode("#009999"),
+                          Color.decode("#7F00FF"),
+                          Color.decode("#808080")};
+        int item = matrix[row][col];
+        JLabel label = new JLabel();
+        if (item == BOMB) {
+            label.setIcon(Util.getIcon("/images/bomb.png"));
+        } else {
+            Color color = COLORS[item];
+            
+        }
+        return label;
     }
 
 

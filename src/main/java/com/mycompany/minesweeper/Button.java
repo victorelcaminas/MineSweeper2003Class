@@ -32,7 +32,7 @@ public class Button extends JButton {
             Button button = (Button) e.getSource();
             if (!SwingUtilities.isRightMouseButton(e)) {
                 if (button.state == CellState.CLOSED) {
-                    button.setIcon(getIcon("/images/boton_pressed.jpg"));
+                    button.setIcon(Util.getIcon("/images/boton_pressed.jpg"));
                 }
             }
             
@@ -99,21 +99,11 @@ public class Button extends JButton {
         
     }
     
-    public Icon getIcon(String path) {
-        Image image = new ImageIcon(getClass()
-                        .getResource(path))
-                        .getImage();
-        Image newimg = image.getScaledInstance
-                (SIZE, SIZE,  java.awt.Image.SCALE_SMOOTH); 
-        Icon icon = new ImageIcon(newimg);
-        return icon;
- 
-    }
     
     public void updateState() {
         switch (state) {
             case CLOSED:
-                setIcon(getIcon("/images/boton.jpg"));
+                setIcon(Util.getIcon("/images/boton.jpg"));
                 break;
             case OPEN:
                 setVisible(false);
@@ -133,10 +123,10 @@ public class Button extends JButton {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (state == CellState.FLAG) {
-            Icon flag = getIcon("/images/flag.png");
+            Icon flag = Util.getIcon("/images/flag.png");
             flag.paintIcon(this, g, 0, 0);
         } else if (state == CellState.QUESTION) {
-            Icon question = getIcon("/images/question.png");
+            Icon question = Util.getIcon("/images/question.png");
             question.paintIcon(this, g, 0, 0);
         }
     }
