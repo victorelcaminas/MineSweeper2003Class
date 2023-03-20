@@ -5,6 +5,8 @@
 package com.mycompany.minesweeper;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -16,8 +18,9 @@ public class Board extends javax.swing.JPanel {
     public static final int BOMB = -1;
     
     private int[][] matrix;
+    private TimerInterface timerInterface;
 
-
+ 
     public Board() {
         initComponents();
         myInit();
@@ -62,6 +65,7 @@ public class Board extends javax.swing.JPanel {
         }
     }
 
+    
     private void incrementMatrixNumbers(int row, int col) {
         for (int incRow = - 1; incRow <= 1; incRow ++) {
             for (int incCol = - 1; incCol <= 1; incCol++) {
@@ -71,7 +75,6 @@ public class Board extends javax.swing.JPanel {
                 if (!(incRow == 0 && incCol == 0) &&
                         isValid(checkRow,checkCol) &&
                         matrix[checkRow][checkCol] != BOMB) {
-                    
                     
                     matrix[checkRow][checkCol] += 1;
                 }
@@ -133,6 +136,13 @@ public class Board extends javax.swing.JPanel {
                 
                 
                 Button button = new Button();
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        timerInterface.startTimer();
+                    }
+                });
+                
                 button.setSize(getSquareDimension());
                 
                 panel.add(button);
@@ -150,6 +160,10 @@ public class Board extends javax.swing.JPanel {
         int height = getHeight();
         Dimension d = new Dimension(width / numCols, height / numRows);
         return d;
+    }
+    
+    public void setTimerInterface(TimerInterface timerInterface) {
+        this.timerInterface = timerInterface;
     }
 
 

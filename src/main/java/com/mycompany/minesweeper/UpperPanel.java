@@ -4,17 +4,22 @@
  */
 package com.mycompany.minesweeper;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Action;
+import javax.swing.Timer;
 import javax.swing.border.*;
 
 /**
  *
  * @author victor
  */
-public class UpperPanel extends javax.swing.JPanel {
+public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
 
-    /**
-     * Creates new form UpperPanel
-     */
+    
+    private Timer timer;
+    private int seconds;
+    
     public UpperPanel() {
         initComponents();
         myInit();
@@ -25,8 +30,31 @@ public class UpperPanel extends javax.swing.JPanel {
         Border border = labelTime.getBorder();
         Border margin = new EmptyBorder(10,5,5,5);
         labelTime.setBorder(new CompoundBorder(border, margin)); 
+        seconds = 0;
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                tick();
+            }
+        });
+        // startTimer();
     }
     
+    @Override
+    public void startTimer() {
+        if (!timer.isRunning()) {
+            timer.start();
+        }
+    }
+    
+    private void tick() {
+        seconds ++;
+        int min = seconds / 60;
+        int sec = seconds % 60;
+        String timeStr = String.format("%02d:%02d", min, sec);
+        labelTime.setText(timeStr);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,7 +85,7 @@ public class UpperPanel extends javax.swing.JPanel {
         );
         panelLeftLayout.setVerticalGroup(
             panelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 85, Short.MAX_VALUE)
+            .addGap(0, 89, Short.MAX_VALUE)
         );
 
         add(panelLeft, java.awt.BorderLayout.LINE_START);
@@ -66,9 +94,9 @@ public class UpperPanel extends javax.swing.JPanel {
         panelRight.setLayout(new java.awt.GridBagLayout());
 
         labelTime.setBackground(new java.awt.Color(0, 0, 0));
-        labelTime.setFont(new java.awt.Font("Keraleeyam", 1, 24)); // NOI18N
+        labelTime.setFont(new java.awt.Font("Monospaced", 1, 20)); // NOI18N
         labelTime.setForeground(new java.awt.Color(255, 51, 51));
-        labelTime.setText("0:00");
+        labelTime.setText("00:00");
         labelTime.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

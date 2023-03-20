@@ -28,6 +28,7 @@ public class MineSweeper extends javax.swing.JFrame {
     
     private void myInit() {
         setLocationRelativeTo(null);
+        board.setTimerInterface(upperPanel);
         board.setPreferredSize(getBoardDimension());
         upperPanel.setPreferredSize(new Dimension(100,100));
         pack();
@@ -46,6 +47,7 @@ public class MineSweeper extends javax.swing.JFrame {
         board = new com.mycompany.minesweeper.Board();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().add(upperPanel, java.awt.BorderLayout.PAGE_START);
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
