@@ -32,8 +32,7 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface, Fl
     }
     
     private void myInit() {
-        flagRemaining = Config.instance.getNumBombs();
-        updateLabelRemaining();
+        resetFlagRemaining();
         buttonSmile.setFocusable(false);
         Border border = labelTime.getBorder();
         Border margin = new EmptyBorder(10,5,5,5);
@@ -48,12 +47,22 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface, Fl
         });
         // startTimer();
     }
+
+    private void resetFlagRemaining() {
+        flagRemaining = Config.instance.getNumBombs();
+        updateLabelRemaining();
+    }
     
     @Override
     public void startTimer() {
         if (!timer.isRunning()) {
             timer.start();
         }
+    }
+    
+    @Override
+    public void stopTimer() {
+        timer.stop();
     }
     
     private void tick() {
@@ -152,7 +161,7 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface, Fl
         seconds = 0;
         timer.restart();
         updateTimerLabel(0, 0);        
-        
+        resetFlagRemaining();
     }//GEN-LAST:event_buttonSmileActionPerformed
 
 

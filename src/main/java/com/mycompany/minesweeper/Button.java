@@ -87,8 +87,11 @@ public class Button extends JButton {
     
     public Button() {
         super();
-        myInit();
-        
+        myInit();        
+    }
+    
+    public void removeMouseAdapter() {
+        removeMouseListener(mouseAdapter);
     }
     
     private void myInit() {

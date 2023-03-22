@@ -7,7 +7,12 @@ package com.mycompany.minesweeper;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.swing.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +25,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private int[][] matrix;
     private TimerInterface timerInterface;
     private FlagInterface flagInterface;
-
+    private List<Button> listOfButtons;
     
     public Board() {
         initComponents();        
@@ -149,13 +154,15 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     
 
     private void createGameBoard(int numRows, int numCols, Icon iconBack) {
+        listOfButtons = new ArrayList<>();
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 JPanel panel = new JPanel();                
                 panel.setLayout(new OverlayLayout(panel));
                 
                 JLabel label = addLabel(row, col);
-                Button button = addButton();
+                Button button = addButton(row, col);
+                listOfButtons.add(button);
                 
                 panel.add(button);
                 panel.add(label);
@@ -167,17 +174,56 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         }
     }
 
-    private Button addButton() {
+    private Button addButton(int row, int col) {
         Button button = new Button();
         button.setFlagInterface(flagInterface);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 timerInterface.startTimer();
+                processClick(row, col);
             }
         });
         button.setSize(getSquareDimension());
         return button;
+    }
+    
+    private void processClick(int row, int col) {
+        if (matrix[row][col] == BOMB) {
+            processGameOver();
+        }
+    }
+    
+    private void processGameOver() {
+        timerInterface.stopTimer();
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                    for (Button b : listOfButtons) {
+                        Icon icon = Util.getIcon("/images/boton_semi.png");
+                        b.setIcon(icon);
+                        b.removeMouseAdapter();
+                    }
+                } catch (InterruptedException ex) {
+                    
+                }
+            }
+        }).start();
+        
+        
+    }
+    
+    public ImageIcon convert(Icon icon) {
+        Image image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = (Graphics2D) image.getGraphics();
+        icon.paintIcon(null, g2d, 0, 0);
+        g2d.dispose();
+
+        ImageIcon imageIcon = new ImageIcon(image);
+        return imageIcon;
     }
     
     private Dimension getSquareDimension() {

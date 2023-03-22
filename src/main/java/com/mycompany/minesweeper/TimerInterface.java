@@ -10,4 +10,5 @@ package com.mycompany.minesweeper;
  */
 public interface TimerInterface {
     public void startTimer();
+    public void stopTimer();
 }
