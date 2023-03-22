@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author victor
  */
-public class Board extends javax.swing.JPanel {
+public class Board extends javax.swing.JPanel implements InitGamer {
     
     public static final int BOMB = -1;
     
@@ -24,6 +24,17 @@ public class Board extends javax.swing.JPanel {
     public Board() {
         initComponents();
         myInit();
+    }
+    
+    public void initGame() {
+        removeComponents();
+        myInit();
+    }
+    
+    public void removeComponents() {
+        for (Component component : getComponents()) {
+            remove(component);
+        }
     }
     
     private void initMatrix(int rows, int cols) {
@@ -180,7 +191,7 @@ public class Board extends javax.swing.JPanel {
     private JLabel addLabel(int row, int col) {
         Color[] COLORS = {Color.decode("#FFFFFF"), 
                           Color.decode("#0000FF"),
-                          Color.decode("#00FF00"),
+                          Color.decode("#009900"),
                           Color.decode("#FF0000"),
                           Color.decode("#000099"),
                           Color.decode("#990000"),
@@ -193,7 +204,10 @@ public class Board extends javax.swing.JPanel {
             label.setIcon(Util.getIcon("/images/bomb.png"));
         } else {
             Color color = COLORS[item];
-            
+            Font font = new Font("Dialog", Font.BOLD, 20);
+            label.setFont(font);
+            label.setForeground(color);
+            label.setText(" " + (item == 0 ? "" : item));
         }
         return label;
     }
