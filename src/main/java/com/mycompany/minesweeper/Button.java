@@ -23,6 +23,10 @@ import javax.swing.SwingUtilities;
 public class Button extends JButton {
     
     public static final int SIZE = 30;
+    
+    private FlagInterface flagInterface;
+
+    
             
     private CellState state;
     
@@ -64,9 +68,11 @@ public class Button extends JButton {
         switch (button.state) {
             case CLOSED:
                 button.state = CellState.FLAG;
+                flagInterface.decrementFlagRemaining();
                 break;
             case FLAG:
                 button.state = CellState.QUESTION;
+                flagInterface.incrementFlagRemaining();
                 break;
             case QUESTION:
                 button.state = CellState.CLOSED;
@@ -97,6 +103,10 @@ public class Button extends JButton {
         state = CellState.CLOSED;
         updateState();
         
+    }
+    
+    public void setFlagInterface(FlagInterface flagInterface) {
+        this.flagInterface = flagInterface;
     }
     
     

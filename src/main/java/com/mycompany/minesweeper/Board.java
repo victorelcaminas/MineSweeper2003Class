@@ -19,16 +19,20 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     
     private int[][] matrix;
     private TimerInterface timerInterface;
+    private FlagInterface flagInterface;
 
- 
+    
     public Board() {
-        initComponents();
-        myInit();
+        initComponents();        
     }
     
     public void initGame() {
         removeComponents();
         myInit();
+    }
+    
+    public void setFlagInterface(FlagInterface flagInterface) {
+        this.flagInterface = flagInterface;
     }
     
     public void removeComponents() {
@@ -125,7 +129,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         setLayout(new java.awt.GridLayout(10, 10));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void myInit() {        
+    public void myInit() {        
         
         int numRows = Config.instance.getNumRows();
         int numCols = Config.instance.getNumCols();
@@ -165,6 +169,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
 
     private Button addButton() {
         Button button = new Button();
+        button.setFlagInterface(flagInterface);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

@@ -14,12 +14,13 @@ import javax.swing.border.*;
  *
  * @author victor
  */
-public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
+public class UpperPanel extends javax.swing.JPanel implements TimerInterface, FlagInterface {
 
     
     private Timer timer;
     private int seconds;
     private InitGamer initGamer;
+    private int flagRemaining;
     
     public UpperPanel() {
         initComponents();
@@ -31,6 +32,8 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
     }
     
     private void myInit() {
+        flagRemaining = Config.instance.getNumBombs();
+        updateLabelRemaining();
         buttonSmile.setFocusable(false);
         Border border = labelTime.getBorder();
         Border margin = new EmptyBorder(10,5,5,5);
@@ -63,6 +66,11 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
     public void updateTimerLabel(int min, int sec) {
         String timeStr = String.format("%02d:%02d", min, sec);
         labelTime.setText(timeStr);
+    }
+    
+    public void updateLabelRemaining() {
+        String remainingStr = String.format("%03d", flagRemaining);
+        labelRemaining.setText(remainingStr);
     }
 
     /**
@@ -148,6 +156,20 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
     }//GEN-LAST:event_buttonSmileActionPerformed
 
 
+    @Override
+    public void incrementFlagRemaining() {
+        flagRemaining ++;
+        updateLabelRemaining();
+    }
+
+    @Override
+    public void decrementFlagRemaining() {
+        flagRemaining --;
+        updateLabelRemaining();
+    }
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonSmile;
     private javax.swing.JLabel labelRemaining;
@@ -156,6 +178,7 @@ public class UpperPanel extends javax.swing.JPanel implements TimerInterface {
     private javax.swing.JPanel panelLeft;
     private javax.swing.JPanel panelRight;
     // End of variables declaration//GEN-END:variables
+
 
    
 }
