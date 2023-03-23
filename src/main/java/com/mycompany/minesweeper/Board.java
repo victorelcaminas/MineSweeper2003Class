@@ -9,8 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.*;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private TimerInterface timerInterface;
     private FlagInterface flagInterface;
     private List<Button> listOfButtons;
+    
     
     public Board() {
         initComponents();        
@@ -44,6 +47,20 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         for (Component component : getComponents()) {
             remove(component);
         }
+    }
+    
+    private int getNumButtonsNotOpen() {
+        int counter = 0;
+        for(Button b : listOfButtons) {
+            if (!b.isOpen()) {
+                counter ++;
+            }
+        }
+        return counter;
+    }
+    
+    private boolean wins() {
+        return getNumButtonsNotOpen() == Config.instance.getNumBombs();
     }
     
     private void initMatrix(int rows, int cols) {
@@ -191,8 +208,59 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private void processClick(int row, int col) {
         if (matrix[row][col] == BOMB) {
             processGameOver();
+        } else if (matrix[row][col] == 0) {            
+            processOpenZero(row, col);
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                    if (wins()) {
+                        processWin();
+                    }
+                } catch (InterruptedException ex) {
+                    
+                }
+            }
+                
+        }).start();
+        
+    }
+    
+    private void processWin() {
+        JOptionPane.showMessageDialog(this, "You win", "Great !!!!!", JOptionPane.OK_OPTION);
+    }
+    
+    private Button getButtonAt(int row, int col) {
+        // int numRows = Config.instance.getNumRows();
+        int numCols = Config.instance.getNumCols(); 
+        int index = row * numCols + col;
+        return listOfButtons.get(index);
+    }
+    
+    private void processOpenZero(int row, int col) {
+        Button b = getButtonAt(row, col);
+        b.open();
+        for (int incRow = - 1; incRow <= 1; incRow ++) {
+            for (int incCol = - 1; incCol <= 1; incCol++) {
+                //if (incRow != 0 || incCol !=0) {
+                int checkRow = row + incRow;
+                int checkCol = col + incCol;
+                if (!(incRow == 0 && incCol == 0) &&
+                        isValid(checkRow,checkCol))  {
+                    Button aroundButton = getButtonAt(checkRow, checkCol);
+                    if (aroundButton.canBeOpened()) {
+                        aroundButton.open();
+                        if (matrix[checkRow][checkCol] == 0) {
+                            processOpenZero(checkRow, checkCol);
+                        }
+                    }
+                }
+            }
         }
     }
+
     
     private void processGameOver() {
         timerInterface.stopTimer();
@@ -263,6 +331,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         return label;
     }
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

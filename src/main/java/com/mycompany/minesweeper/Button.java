@@ -26,8 +26,6 @@ public class Button extends JButton {
     
     private FlagInterface flagInterface;
 
-    
-            
     private CellState state;
     
     private class MymouseAdapter extends MouseAdapter {
@@ -55,13 +53,25 @@ public class Button extends JButton {
             Button button = (Button) e.getSource();
             if (SwingUtilities.isLeftMouseButton(e) &&
                     button.state == CellState.CLOSED) {
-                button.state = CellState.OPEN;
-                button.updateState();
+                button.open();
             } else if (SwingUtilities.isRightMouseButton(e)) {
                 processRightClick(button);
             }
             
         }
+    }
+    
+    public boolean canBeOpened() {
+        return state == CellState.CLOSED;
+    }
+    
+    public boolean isOpen() {
+        return state == CellState.OPEN;
+    }
+    
+    public void open() {
+        state = CellState.OPEN;
+        updateState();
     }
     
     private void processRightClick(Button button) {
