@@ -230,6 +230,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     }
     
     private void processWin() {
+        processGameOver();
         JOptionPane.showMessageDialog(this, "You win", "Great !!!!!", JOptionPane.OK_OPTION);
     }
     
@@ -280,10 +281,9 @@ public class Board extends javax.swing.JPanel implements InitGamer {
                     
                 }
             }
-        }).start();
-        
-        
+        }).start(); 
     }
+    
     
     public ImageIcon convert(Icon icon) {
         Image image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
