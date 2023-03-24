@@ -36,6 +36,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     
     public void initGame() {
         removeComponents();
+        Config.instance.setRunning(true);
         myInit();
     }
     
@@ -197,6 +198,7 @@ public class Board extends javax.swing.JPanel implements InitGamer {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                
                 timerInterface.startTimer();
                 processClick(row, col);
             }
@@ -206,6 +208,9 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     }
     
     private void processClick(int row, int col) {
+        if (!Config.instance.isRunning()) {
+            return;
+        }
         if (matrix[row][col] == BOMB) {
             processGameOver();
         } else {
@@ -265,6 +270,8 @@ public class Board extends javax.swing.JPanel implements InitGamer {
 
     
     private void processGameOver() {
+        
+        Config.instance.setRunning(false);
         timerInterface.stopTimer();
         
         new Thread(new Runnable() {

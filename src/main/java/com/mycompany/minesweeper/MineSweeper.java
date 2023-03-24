@@ -29,13 +29,10 @@ public class MineSweeper extends javax.swing.JFrame implements ResizerInterface 
     private void myInit() {
         setLocationRelativeTo(null);
         board.setTimerInterface(upperPanel);
-            
         upperPanel.setPreferredSize(new Dimension(100,100));
         upperPanel.setInitGamer(board);
         board.setFlagInterface(upperPanel);
         resize();
-        
-        pack();
     }
 
     @Override
@@ -43,9 +40,10 @@ public class MineSweeper extends javax.swing.JFrame implements ResizerInterface 
         board.setPreferredSize(getBoardDimension());
         pack();
         board.initGame();
+        upperPanel.resetTimer();
         upperPanel.resetFlagRemaining();
-        //upperPanel.updateLabelRemaining();
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
