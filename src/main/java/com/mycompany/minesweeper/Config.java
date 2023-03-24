@@ -18,6 +18,10 @@ public class Config {
         level = 0;
     }
     
+    public void setLevel(int level) {
+        this.level = level;
+    }
+    
     public int getNumRows() {
         switch (level) {
             case 0:

@@ -10,7 +10,7 @@ import java.awt.Dimension;
  *
  * @author victor
  */
-public class MineSweeper extends javax.swing.JFrame {
+public class MineSweeper extends javax.swing.JFrame implements ResizerInterface {
 
     /**
      * Creates new form MineSweeper
@@ -29,14 +29,23 @@ public class MineSweeper extends javax.swing.JFrame {
     private void myInit() {
         setLocationRelativeTo(null);
         board.setTimerInterface(upperPanel);
-        board.setPreferredSize(getBoardDimension());
+            
         upperPanel.setPreferredSize(new Dimension(100,100));
         upperPanel.setInitGamer(board);
         board.setFlagInterface(upperPanel);
-        board.myInit();
+        resize();
+        
         pack();
     }
 
+    @Override
+    public void resize() {
+        board.setPreferredSize(getBoardDimension());
+        pack();
+        board.initGame();
+        upperPanel.resetFlagRemaining();
+        //upperPanel.updateLabelRemaining();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,14 +57,41 @@ public class MineSweeper extends javax.swing.JFrame {
 
         upperPanel = new com.mycompany.minesweeper.UpperPanel();
         board = new com.mycompany.minesweeper.Board();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().add(upperPanel, java.awt.BorderLayout.PAGE_START);
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Config");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ConfigDialog dialog = new ConfigDialog(this, true);
+        dialog.setResizer(this);
+        dialog.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -94,6 +130,12 @@ public class MineSweeper extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mycompany.minesweeper.Board board;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private com.mycompany.minesweeper.UpperPanel upperPanel;
     // End of variables declaration//GEN-END:variables
+
+
 }
