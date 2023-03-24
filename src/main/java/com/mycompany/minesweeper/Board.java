@@ -208,10 +208,11 @@ public class Board extends javax.swing.JPanel implements InitGamer {
     private void processClick(int row, int col) {
         if (matrix[row][col] == BOMB) {
             processGameOver();
-        } else if (matrix[row][col] == 0) {            
-            processOpenZero(row, col);
-        }
-        new Thread(new Runnable() {
+        } else {
+            if (matrix[row][col] == 0) {            
+                processOpenZero(row, col);
+            }
+            new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -222,10 +223,10 @@ public class Board extends javax.swing.JPanel implements InitGamer {
                 } catch (InterruptedException ex) {
                     
                 }
-            }
-                
+            }                
         }).start();
-        
+        }
+                
     }
     
     private void processWin() {
