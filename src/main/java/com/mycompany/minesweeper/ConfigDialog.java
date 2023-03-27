@@ -17,7 +17,8 @@ public class ConfigDialog extends javax.swing.JDialog {
      */
     public ConfigDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();        
+        initComponents();    
+        setLocationRelativeTo(null);
     }
     
     public void setResizer(ResizerInterface resizer) {
